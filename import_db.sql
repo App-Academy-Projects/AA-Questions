@@ -53,7 +53,8 @@ CREATE TABLE question_likes (
 );
 
 -- SEEDING THE DATABASE
-
+.headers on
+.mode column
 -- USERS
 INSERT INTO
     users (fname, lname)
