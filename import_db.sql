@@ -16,3 +16,10 @@ CREATE TABLE questions (
 
     FOREIGN KEY (associated_author_id) REFERENCES users(id)
 )
+
+DROP TABLE IF EXISTS question_follows;
+
+CREATE TABLE question_follows (
+    question_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL
+)
