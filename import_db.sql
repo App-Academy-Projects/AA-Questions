@@ -1,3 +1,6 @@
+PRAGMA foreign_keys = ON;  -- This statement makes sqlite3 actually respect the foreign key constraints you've added in 'CREATE TABLE' statements
+
+
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
