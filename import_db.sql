@@ -27,3 +27,17 @@ CREATE TABLE question_follows (
     FOREIGN KEY (user_id) REFERENCES users(id)
     FOREIGN KEY (question_id) REFERENCES questions(id)
 )
+
+DROP TABLE IF EXISTS replies;
+
+CREATE TABLE replies (
+    id INTEGER PRIMARY KEY,
+    question_id INTEGER NOT NULL,
+    parent_reply_id INTEGER,
+    author_id INTEGER NOT NULL,
+    body TEXT NOT NULL,
+
+    FOREIGN KEY (question_id) REFERENCES questions(id),
+    FOREIGN KEY (parent_reply_id) REFERENCES replies(id),
+    FOREIGN KEY (author_id) REFERENCES users(id)
+)
