@@ -10,6 +10,27 @@ class Question
         @author_id = options['author_id']
     end
 
+    def save
+        if id
+            QuestionsDatabase.instance.execute(<<-SQL, title, body, author_id, id)
+            UPDATE
+                questions
+            SET
+                title = ?, body = ?, author_id = ?
+            WHERE
+                questions.id = ?
+            SQL
+        else
+            QuestionsDatabase.instance.execute(<<-SQL, title, body, author_id)
+            INSERT INTO
+                questions (title, body, author_id)
+            VALUES
+                (?, ?, ?)
+            SQL
+            @id = QuestionsDatabase.last_insert_row_id
+        end
+    end
+
     def self.all
         data = QuestionsDatabase.instance.execute("SELECT * FROM questions")
         data.map { |datum| Question.new(datum) }
