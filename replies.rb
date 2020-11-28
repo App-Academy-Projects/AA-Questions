@@ -9,4 +9,17 @@ class Reply
         @author_id = options['author_id']
         @body = options['body']
     end
+
+    def self.find_by_user_id(user_id)
+        replies = QuestionsDatabase.instance.execute(<<-SQL, user_id)
+        SELECT
+            *
+        FROM
+            replies
+        WHERE
+            author_id = ?
+        SQL
+        return nil if replies.empty?
+        replies.map { |reply| Reply.new(reply) }
+    end
 end
