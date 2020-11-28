@@ -1,12 +1,11 @@
-require 'sqlite3'
 require_relative 'question_db_connection'
 
 class Question
     def initialize(options)
         @id = options['id']
         @title = options['title']
-        @year = options['body']
-        @playwright_id = options['author_id']
+        @body = options['body']
+        @author_id = options['author_id']
     end
 
     def self.all
