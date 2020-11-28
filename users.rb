@@ -47,10 +47,22 @@ class User
     end
 
     def average_karma
-        n_questions = authored_questions.count
-        n_likes = 0
-        authored_questions.each { |question| n_likes += question.num_likes }
-
-        n_likes / n_questions
+        QuestionsDatabase.instance.execute(<<-SQL, id)
+        SELECT
+            AVG(likes) AS average_karma
+        FROM
+            (
+                SELECT
+                    COUNT(question_likes.user_id) AS likes
+                FROM
+                    questions
+                LEFT OUTER JOIN
+                    question_likes ON questions.id = question_likes.question_id
+                WHERE
+                    questions.author_id = ?
+                GROUP BY
+                    questions.id
+            )
+        SQL
     end
 end
