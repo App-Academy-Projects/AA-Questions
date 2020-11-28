@@ -1,6 +1,7 @@
 require_relative 'question_db_connection'
 
 class Question
+    attr_accessor :id, :title, :body, :author_id
     def initialize(options)
         @id = options['id']
         @title = options['title']
