@@ -35,4 +35,19 @@ class QuestionLike
             question_id = ?
         SQL
     end
+
+    def self.liked_questions_for_user_id(user_id)
+        liked_questions = QuestionsDatabase.instance.execute(<<-SQL, user_id)
+        SELECT
+            questions.*
+        FROM
+            questions
+        JOIN
+            question_likes ON questions.id = question_likes.question_id
+        WHERE
+            question_likes.user_id = ?
+        SQL
+        return nil if liked_questions.empty?
+        liked_questions.map { |question| Question.new(question) }
+    end
 end
