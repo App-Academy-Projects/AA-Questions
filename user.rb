@@ -8,6 +8,19 @@ class User
         @lname = options['lname']
     end
 
+    def self.find_by_id(id)
+        user = QuestionsDatabase.instance.execute(<<-SQL, id)
+        SELECT
+            *
+        FROM
+            users
+        WHERE
+            id = ?
+        SQL
+        return nil if user.empty?
+        User.new(user.first)
+    end
+
     def self.find_by_name(fname, lname)
         users = QuestionsDatabase.instance.execute(<<-SQL, fname, lname)
         SELECT
