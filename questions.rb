@@ -18,4 +18,8 @@ class Question
         @year = options['body']
         @playwright_id = options['author_id']
     end
+  def self.all
+    data = QuestionsDatabase.instance.execute("SELECT * FROM questions")
+    data.map { |datum| Question.new(datum) }
+  end
 end
