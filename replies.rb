@@ -35,4 +35,8 @@ class Reply
         return nil if replies.empty?
         replies.map { |reply| Reply.new(reply) }
     end
+
+    def author
+        User.find_by_id(author_id)
+    end
 end
