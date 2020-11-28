@@ -52,4 +52,8 @@ class Question
     def replies
         Reply.find_by_question_id(id)
     end
+
+    def self.most_followed(n)
+        QuestionFollow.most_followed_questions(n)
+    end
 end
