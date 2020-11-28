@@ -10,6 +10,19 @@ class Reply
         @body = options['body']
     end
 
+    def self.find_by_id(id)
+        replies = QuestionsDatabase.instance.execute(<<-SQL, id)
+        SELECT
+            *
+        FROM
+            replies
+        WHERE
+            id = ?
+        SQL
+        return nil if replies.empty?
+        replies.map { |reply| Reply.new(reply) }
+    end
+
     def self.find_by_user_id(user_id)
         replies = QuestionsDatabase.instance.execute(<<-SQL, user_id)
         SELECT
