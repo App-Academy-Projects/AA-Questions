@@ -65,4 +65,8 @@ class Reply
     def parent_reply
         Reply.find_by_id(parent_reply_id)
     end
+
+    def child_replies
+        Reply.all.select { |reply| reply.parent_reply_id == id }
+    end
 end
