@@ -22,4 +22,19 @@ class QuestionFollow
         return nil if followers.empty?
         followers.map { |follower| User.new(follower) }
     end
+
+    def self.followed_questions_for_user_id(user_id)
+        questions = QuestionsDatabase.instance.execute(<<-SQL, user_id)
+        SELECT
+            questions.*
+        FROM
+            questions
+        JOIN
+            question_follows ON questions.id = question_id
+        WHERE
+            question_follows.user_id = ?
+        SQL
+        return nil if questions.empty?
+        questions.map { |question| Question.new(question) }
+    end
 end
