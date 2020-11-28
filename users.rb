@@ -45,4 +45,12 @@ class User
     def liked_questions
         QuestionLike.liked_questions_for_user_id(id)
     end
+
+    def average_karma
+        n_questions = authored_questions.count
+        n_likes = 0
+        authored_questions.each { |question| n_likes += question.num_likes }
+
+        n_likes / n_questions
+    end
 end
