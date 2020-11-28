@@ -50,4 +50,21 @@ class QuestionLike
         return nil if liked_questions.empty?
         liked_questions.map { |question| Question.new(question) }
     end
+
+    def self.most_liked_questions(n)
+        questions = QuestionsDatabase.instance.execute(<<-SQL, n)
+        SELECT
+            questions.*
+        FROM
+            questions
+        JOIN
+            question_likes ON questions.id = question_likes.question_id
+        GROUP BY
+            questions.id
+        ORDER BY
+            COUNT(*) DESC
+        LIMIT
+            ?
+        SQL
+    end
 end
