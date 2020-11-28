@@ -26,4 +26,17 @@ class Question
         return nil if question.empty?
         Question.new(question.first)
     end
+
+    def self.find_by_author_id(author_id)
+        questions = QuestionsDatabase.instance.execute(<<-SQL, author_id)
+        SELECT
+            *
+        FROM
+            questions
+        WHERE
+            author_id = ?
+        SQL
+        return nil if questions.empty?
+        questions.map { |question| Question.new(question) }
+    end
 end
