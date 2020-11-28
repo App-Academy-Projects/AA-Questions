@@ -8,6 +8,27 @@ class User
         @lname = options['lname']
     end
 
+    def save
+        if id
+            QuestionsDatabase.instance.execute(<<-SQL, fname, lname, id)
+            UPDATE
+                users
+            SET
+                fname = ?, lname = ?
+            WHERE
+                users.id = ?
+            SQL
+        else
+            QuestionsDatabase.instance.execute(<<-SQL, fname, lname)
+            INSERT INTO
+                users (fname, lname)
+            VALUES
+                (?, ?)
+            SQL
+            @id = QuestionsDatabase.last_insert_row_id
+        end
+    end
+
     def self.find_by_id(id)
         user = QuestionsDatabase.instance.execute(<<-SQL, id)
         SELECT

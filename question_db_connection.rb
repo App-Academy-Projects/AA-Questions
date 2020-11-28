@@ -9,4 +9,8 @@ class QuestionsDatabase < SQLite3::Database
         self.type_translation = true
         self.results_as_hash = true
     end
+
+    def self.last_insert_row_id
+        instance.last_insert_row_id
+    end
 end
