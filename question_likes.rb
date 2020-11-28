@@ -26,7 +26,7 @@ class QuestionLike
     def self.num_likes_for_question_id(question_id)
         likes = QuestionsDatabase.instance.execute(<<-SQL, question_id)
         SELECT
-            COUNT(*) AS 'Number Of Likes'
+            COUNT(*) AS 'n'
         FROM
             questions
         JOIN
@@ -34,6 +34,7 @@ class QuestionLike
         WHERE
             question_id = ?
         SQL
+        likes.first['n']
     end
 
     def self.liked_questions_for_user_id(user_id)
