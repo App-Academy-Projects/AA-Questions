@@ -1,4 +1,5 @@
 require_relative 'question_db_connection'
+require_relative 'user'
 
 class Question
     attr_accessor :id, :title, :body, :author_id
@@ -38,5 +39,9 @@ class Question
         SQL
         return nil if questions.empty?
         questions.map { |question| Question.new(question) }
+    end
+
+    def author
+        User.find_by_id(author_id)
     end
 end
