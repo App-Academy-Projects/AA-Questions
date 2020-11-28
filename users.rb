@@ -49,20 +49,13 @@ class User
     def average_karma
         QuestionsDatabase.instance.execute(<<-SQL, id)
         SELECT
-            AVG(likes) AS average_karma
+            CAST(COUNT(question_likes.id) AS FLOAT) / COUNT(DISTINCT(questions.id)) AS avg_karma
         FROM
-            (
-                SELECT
-                    COUNT(question_likes.user_id) AS likes
-                FROM
-                    questions
-                LEFT OUTER JOIN
-                    question_likes ON questions.id = question_likes.question_id
-                WHERE
-                    questions.author_id = ?
-                GROUP BY
-                    questions.id
-            )
+            questions
+        LEFT OUTER JOIN
+            question_likes ON questions.id = question_likes.question_id
+        WHERE
+            questions.author_id = ?
         SQL
     end
 end
