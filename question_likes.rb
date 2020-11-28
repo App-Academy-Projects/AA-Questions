@@ -66,5 +66,7 @@ class QuestionLike
         LIMIT
             ?
         SQL
+        return nil if questions.empty?
+        questions.map { |question| Question.new(question) }
     end
 end
