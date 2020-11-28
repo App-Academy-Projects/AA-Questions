@@ -44,4 +44,8 @@ class Question
     def author
         User.find_by_id(author_id)
     end
+
+    def authored_replies
+        Reply.find_by_user_id(author_id)
+    end
 end
