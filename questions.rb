@@ -10,3 +10,12 @@ class QuestionsDatabase < SQLite3::Database
     self.results_as_hash = true
   end
 end
+
+class Question
+    def initialize(options)
+        @id = options['id']
+        @title = options['title']
+        @year = options['body']
+        @playwright_id = options['author_id']
+    end
+end
