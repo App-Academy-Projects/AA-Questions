@@ -39,4 +39,8 @@ class Reply
     def author
         User.find_by_id(author_id)
     end
+
+    def question
+        Question.find_by_id(question_id)
+    end
 end
