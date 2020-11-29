@@ -10,6 +10,27 @@ class Reply
         @body = options['body']
     end
 
+    def save
+        if id
+            QuestionsDatabase.instance.execute(<<-SQL, question_id, parent_reply_id, author_id, body, id)
+            UPDATE
+                replies
+            SET
+                question_id = ?, parent_reply_id = ?, author_id = ?, body = ?
+            WHERE
+                replies.id = ?
+            SQL
+        else
+            QuestionsDatabase.instance.execute(<<-SQL, question_id, parent_reply_id, author_id, body)
+            INSERT INTO
+                replies (question_id, parent_reply_id, author_id, body)
+            VALUES
+                (?, ?, ?, ?)
+            SQL
+            @id = QuestionsDatabase.last_insert_row_id
+        end
+    end
+
     def self.all
         replies = QuestionsDatabase.instance.execute("SELECT * FROM replies")
         replies.map { |reply| Reply.new(reply) }
